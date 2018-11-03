@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>优先级规则测试</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		div{
+			width: 200px;
+			height: 200px;
+		}
+
+		div{
+			background-color: red;
+		}
+
+		.one>#second div{
+			background-color: orange;
+		}
+
+		div#second.two>.three div#wu{
+			background-color: yellow;
+		}
+
+		#first>.two>div#third>.si#four>#fifth{
+			background-color: green;
+		}
+
+		#second>.three>div.si.wu{
+			background-color: blue;
+		}
+
+		div>div.two>#third.three>.si #wu{
+			background-color: purple;
+		}
+
+		#wu.fifth{
+			background-color: skyblue;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="one" id="first">
+		<div id="second" class="two">
+			<div id="third" class="three">
+				<div class="si" id="four">
+					<div id="wu" class="fifth"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 
+		上面嵌套标记中，最里面的div的颜色为什么颜色？为什么?（在下面写出分析的具体过程）
+				a 		b 		c 		d
+	orange		0		1		1		1
+	yellow		0		2		2		2
+	green
+	blue 		
+	purple 		0		2		3		2
+	skyblue     0		1		1		0
+
+	比较上方a		b 	 c 	  d 排序中发现 紫色和黄色的 b 数量相同，再看 c 中，紫色比黄色多一个，故显示紫色;	
+	
+	在 green 绿色中  元素嵌套关系出现错误而导致其不得参与优先级，纠正如下
+		#first>.two>div#third>.si#four>#fifth
+		#first>.two>div.third>.si#four>#fifth
+		third 为class类名  前方应加.  而不是#
+	在 blue 蓝色中  元素嵌套关系出现错误而导致其不得参与优先级，纠正如下
+		#second>.three>div.si.wu
+		#second>.three>div.si>.wu
+		.wu 为dic.si 的子元素，父元素和子元素不得在一起呈现，要用>或 （空格）隔开。
+
+
+		综上所述   最里面的 div 的背景颜色为 紫色purple。
+	 -->
+
+</body>
+</html>
